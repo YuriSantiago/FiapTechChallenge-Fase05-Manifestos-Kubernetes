@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pedido-produtor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pedido-produtor
+  template:
+    metadata:
+      labels:
+        app: pedido-produtor
+    spec:
+      containers:
+        - name: pedido-produtor
+          image: pedido-produtor:latest
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: DOTNET_ENVIRONMENT
+            value: Production
+          ports:
+            - containerPort: 8080
+---     
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pedido-consumidor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pedido-consumidor
+  template:
+    metadata:
+      labels:
+        app: pedido-consumidor
+    spec:
+      containers:
+        - name: pedido-consumidor
+          image: pedido-consumidor:latest
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: DOTNET_ENVIRONMENT
+            value: Production
+          ports:
+            - containerPort: 80

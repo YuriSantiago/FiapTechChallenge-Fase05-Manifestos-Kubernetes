@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cozinha-produtor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cozinha-produtor
+  template:
+    metadata:
+      labels:
+        app: cozinha-produtor
+    spec:
+      containers:
+        - name: cozinha-produtor
+          image: cozinha-produtor:latest
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: DOTNET_ENVIRONMENT
+            value: Production
+          ports:
+            - containerPort: 8080
+---     
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cozinha-consumidor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cozinha-consumidor
+  template:
+    metadata:
+      labels:
+        app: cozinha-consumidor
+    spec:
+      containers:
+        - name: cozinha-consumidor
+          image: cozinha-consumidor:latest
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: DOTNET_ENVIRONMENT
+            value: Production
+          ports:
+            - containerPort: 80

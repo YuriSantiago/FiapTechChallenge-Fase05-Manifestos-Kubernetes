@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: usuario-produtor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: usuario-produtor
+  template:
+    metadata:
+      labels:
+        app: usuario-produtor
+    spec:
+      containers:
+        - name: usuario-produtor
+          image: usuario-produtor:latest
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: DOTNET_ENVIRONMENT
+            value: Production
+          ports:
+            - containerPort: 8080
+---     
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: usuario-consumidor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: usuario-consumidor
+  template:
+    metadata:
+      labels:
+        app: usuario-consumidor
+    spec:
+      containers:
+        - name: usuario-consumidor
+          image: usuario-consumidor:latest
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: DOTNET_ENVIRONMENT
+            value: Production
+          ports:
+            - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: usuario-autenticacao
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: usuario-autenticacao
+  template:
+    metadata:
+      labels:
+        app: usuario-autenticacao
+    spec:
+      containers:
+        - name: usuario-autenticacao
+          image: usuario-autenticacao:latest
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: DOTNET_ENVIRONMENT
+            value: Production
+          ports:
+            - containerPort: 8080
+---     

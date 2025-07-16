@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: produto-produtor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: produto-produtor
+  template:
+    metadata:
+      labels:
+        app: produto-produtor
+    spec:
+      containers:
+        - name: produto-produtor
+          image: produto-produtor:latest
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: DOTNET_ENVIRONMENT
+            value: Production
+          ports:
+            - containerPort: 8080
+---     
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: produto-consumidor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: produto-consumidor
+  template:
+    metadata:
+      labels:
+        app: produto-consumidor
+    spec:
+      containers:
+        - name: produto-consumidor
+          image: produto-consumidor:latest
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: DOTNET_ENVIRONMENT
+            value: Production
+          ports:
+            - containerPort: 80
